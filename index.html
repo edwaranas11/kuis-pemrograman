@@ -1,209 +1,201 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kuis Interaktif: Logika & Pemrograman Java</title>
-    <style>
-        /* --- CSS: Tampilan & Desain --- */
-        :root {
-            --primary: #2563eb;
-            --secondary: #64748b;
-            --success: #22c55e;
-            --bg: #f8fafc;
-            --text: #1e293b;
-        }
-
-        body {
-            font-family: 'Inter', system-ui, -apple-system, sans-serif;
-            background-color: var(--bg);
-            color: var(--text);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            padding: 15px;
-        }
-
-        .quiz-card {
-            background: white;
-            width: 100%;
-            max-width: 650px;
-            padding: 2rem;
-            border-radius: 1rem;
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
-        }
-
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 2px solid #f1f5f9;
-            padding-bottom: 1rem;
-            margin-bottom: 1.5rem;
-        }
-
-        h1 { font-size: 1.25rem; margin: 0; color: var(--primary); }
-        #progress { font-weight: 600; font-size: 0.875rem; color: var(--secondary); }
-
-        .question-text {
-            font-size: 1.15rem;
-            font-weight: 500;
-            line-height: 1.6;
-            margin-bottom: 1.5rem;
-        }
-
-        .options-list {
-            display: grid;
-            gap: 0.75rem;
-        }
-
-        .btn-option {
-            background: white;
-            border: 2px solid #e2e8f0;
-            padding: 1rem;
-            border-radius: 0.6rem;
-            text-align: left;
-            cursor: pointer;
-            transition: all 0.2s;
-            font-size: 1rem;
-        }
-
-        .btn-option:hover {
-            border-color: var(--primary);
-            background-color: #eff6ff;
-        }
-
-        .hidden { display: none; }
-
-        /* --- Tampilan Hasil --- */
-        #result-screen {
-            text-align: center;
-            padding: 1rem;
-        }
-
-        .score-box {
-            font-size: 4rem;
-            font-weight: 800;
-            color: var(--primary);
-            margin-bottom: 0.5rem;
-        }
-
-        .status-msg {
-            font-size: 1.2rem;
-            margin-bottom: 2rem;
-            color: var(--secondary);
-        }
-
-        .btn-restart {
-            background-color: var(--primary);
-            color: white;
-            border: none;
-            padding: 0.75rem 2rem;
-            border-radius: 0.5rem;
-            font-weight: 600;
-            cursor: pointer;
-            font-size: 1rem;
-        }
-
-        .btn-restart:hover { opacity: 0.9; }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Kuis PPLG - Logika & Java Dasar</title>
+  <style>
+    body {
+      font-family: "Segoe UI", sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f4f7f9;
+      color: #333;
+    }
+    header {
+      text-align: center;
+      padding: 20px;
+      background-color: #1e3a8a;
+      color: white;
+    }
+    header img {
+      width: 80px;
+      margin-bottom: 10px;
+    }
+    .container {
+      max-width: 800px;
+      margin: 20px auto;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h2 {
+      color: #1e3a8a;
+      font-size: 1.1rem;
+    }
+    .question {
+      margin-bottom: 30px;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 15px;
+    }
+    .options label {
+      display: block;
+      padding: 10px;
+      border: 1px solid #ccc;
+      margin-bottom: 5px;
+      border-radius: 5px;
+      cursor: pointer;
+      background-color: #f9f9f9;
+      transition: background 0.2s;
+    }
+    .options label:hover {
+      background-color: #e0e7ff;
+    }
+    button {
+      padding: 12px 25px;
+      font-size: 16px;
+      margin-top: 20px;
+      border: none;
+      border-radius: 5px;
+      background-color: #1e3a8a;
+      color: white;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    button:hover {
+      background-color: #3749a2;
+    }
+    .result {
+      margin-top: 30px;
+      padding: 20px;
+      background-color: #d1fae5;
+      border-left: 5px solid #10b981;
+      border-radius: 5px;
+      display: none;
+    }
+    .correct {
+      background-color: #d1fae5 !important;
+      border-color: #10b981 !important;
+    }
+    .incorrect {
+      background-color: #fee2e2 !important;
+      border-color: #ef4444 !important;
+    }
+    .feedback {
+      font-weight: bold;
+      margin-top: 5px;
+    }
+    @media screen and (max-width: 600px) {
+      .container {
+        margin: 10px;
+        padding: 15px;
+      }
+    }
+  </style>
 </head>
 <body>
+  <header>
+    <img src="https://edwaranas11.github.io/soal-pplg1/LOGO%20SMK.png" alt="Logo Sekolah" />
+    <h1>Evaluasi Logika & Pemrograman Java</h1>
+    <p>Oleh Edwar Anas, S.Kom</p>
+  </header>
 
-    <div class="quiz-card">
-        <header id="quiz-header">
-            <h1>Evaluasi Belajar</h1>
-            <span id="progress">Soal 1/20</span>
-        </header>
+  <div class="container" id="quiz-container">
+    <form id="quizForm"></form>
+    <div class="result" id="resultBox"></div>
+    <button type="button" onclick="submitQuiz()">Selesai & Cek Hasil</button>
+    <button type="button" onclick="location.reload()" style="display: none;" id="retryBtn">Coba Lagi</button>
+  </div>
 
-        <div id="quiz-screen">
-            <div class="question-text" id="question">Memuat pertanyaan...</div>
-            <div class="options-list" id="options"></div>
-        </div>
+  <script>
+    const questions = [
+      // BULAN 1: Logika & AI
+      { question: "1. Teknik memecah masalah kompleks menjadi bagian-bagian yang lebih kecil disebut...", options: ["Abstraksi", "Dekomposisi", "Pengenalan Pola", "Algoritma"], answer: 1 },
+      { question: "2. Perbedaan utama AI dengan program manual adalah AI mampu...", options: ["Bekerja tanpa listrik", "Belajar dari pola data", "Menghapus virus otomatis", "Mengganti hardware sendiri"], answer: 1 },
+      { question: "3. Langkah-langkah logis dan sistematis untuk menyelesaikan masalah disebut...", options: ["Flowchart", "Variabel", "Algoritma", "Pseudocode"], answer: 2 },
+      { question: "4. Simbol belah ketupat (diamond) pada flowchart berfungsi untuk...", options: ["Mulai/Selesai", "Proses", "Input/Output", "Keputusan/Percabangan"], answer: 3 },
+      { question: "5. Penulisan algoritma yang menyerupai struktur kode pemrograman adalah...", options: ["Flowchart", "Pseudocode", "Narasi", "Puisi"], answer: 1 },
+      
+      // Minggu 3-4: Dasar Java
+      { question: "6. Class Java yang digunakan untuk menerima input dari user adalah...", options: ["Scanner", "Input", "System", "Print"], answer: 0 },
+      { question: "7. Manakah penulisan main method yang benar di Java?", options: ["void static main()", "public static void main(String[] args)", "public main(args)", "static void Main()"], answer: 1 },
+      { question: "8. Tipe data yang digunakan untuk menyimpan angka bulat adalah...", options: ["double", "float", "String", "int"], answer: 3 },
+      { question: "9. Jika ingin menyimpan teks seperti 'Nama Siswa', tipe data yang tepat adalah...", options: ["char", "String", "boolean", "int"], answer: 1 },
+      { question: "10. Perintah untuk mencetak teks lalu pindah ke baris baru adalah...", options: ["System.out.print()", "System.out.println()", "System.in.read()", "System.out.write()"], answer: 1 },
 
-        <div id="result-screen" class="hidden">
-            <h2>Ujian Selesai!</h2>
-            <div class="score-box" id="final-score">0</div>
-            <p class="status-msg" id="status-text"></p>
-            <button class="btn-restart" onclick="location.reload()">Coba Lagi</button>
-        </div>
-    </div>
+      // BULAN 2: Struktur Kontrol
+      { question: "11. Struktur kontrol yang digunakan untuk memilih satu dari dua kondisi (Ya/Tidak) adalah...", options: ["FOR", "WHILE", "IF-ELSE", "SWITCH"], answer: 2 },
+      { question: "12. Operator logika 'AND' di Java dilambangkan dengan simbol...", options: ["||", "==", "&&", "!"], answer: 2 },
+      { question: "13. Struktur IF di dalam IF disebut dengan istilah...", options: ["Multiple IF", "Nested IF", "Double IF", "Looping IF"], answer: 1 },
+      { question: "14. Keyword yang digunakan pada SWITCH-CASE jika tidak ada nilai yang cocok adalah...", options: ["else", "break", "stop", "default"], answer: 3 },
+      { question: "15. Apa fungsi 'break' dalam struktur SWITCH-CASE?", options: ["Menghentikan program", "Keluar dari blok switch agar tidak lanjut ke case bawahnya", "Memberikan nilai balik", "Memulai perulangan"], answer: 1 },
+      { question: "16. Perulangan yang jumlah putarannya sudah ditentukan secara pasti sebaiknya menggunakan...", options: ["FOR", "WHILE", "DO-WHILE", "IF"], answer: 0 },
+      { question: "17. Perulangan yang mengecek kondisi di akhir (minimal jalan 1x) adalah...", options: ["FOR", "WHILE", "DO-WHILE", "SWITCH"], answer: 2 },
+      { question: "18. Apa yang terjadi jika kondisi WHILE selalu bernilai TRUE tanpa ada perubahan nilai?", options: ["Program error", "Infinite Loop (Perulangan tak henti)", "Program langsung selesai", "PC otomatis mati"], answer: 1 },
+      { question: "19. Operator 'i++' dalam perulangan merupakan singkatan dari...", options: ["i = i + 1", "i = i - 1", "i = i * 2", "i = i / 2"], answer: 0 },
+      { question: "20. Tipe data yang hanya memiliki nilai 'true' atau 'false' adalah...", options: ["int", "double", "boolean", "String"], answer: 2 }
+    ];
 
-    <script>
-        // Data 20 Pertanyaan
-        const database = [
-            { q: "Membagi masalah besar menjadi bagian kecil agar mudah diselesaikan disebut...", a: ["Dekomposisi", "Abstraksi", "Algoritma", "Coding"], c: 0 },
-            { q: "Perbedaan utama AI dibanding program biasa adalah...", a: ["Tidak butuh listrik", "Belajar dari data", "Lebih mahal", "Tidak butuh koding"], c: 1 },
-            { q: "Simbol belah ketupat dalam flowchart melambangkan...", a: ["Mulai", "Proses", "Keputusan (Decision)", "Output"], c: 2 },
-            { q: "Penulisan algoritma yang mirip bahasa pemrograman disebut...", a: ["Diagram", "Pseudocode", "Script", "Bahasa Gaul"], c: 1 },
-            { q: "Simbol jajaran genjang di flowchart digunakan untuk...", a: ["Input/Output", "Proses", "Mulai", "Selesai"], c: 0 },
-            { q: "Keyword Java untuk mengaktifkan fungsi input Scanner adalah...", a: ["include", "import", "package", "using"], c: 1 },
-            { q: "Tipe data untuk menyimpan angka bulat (tanpa koma) adalah...", a: ["double", "String", "int", "boolean"], c: 2 },
-            { q: "Tipe data untuk menyimpan teks/kalimat adalah...", a: ["char", "int", "float", "String"], c: 3 },
-            { q: "Java bersifat Case-Sensitive, artinya...", a: ["Sensitif pada perasaan", "Huruf besar/kecil berpengaruh", "Hanya bisa di PC", "Tidak boleh ada angka"], c: 1 },
-            { q: "Operator '&&' dalam logika pemrograman berarti...", a: ["ATAU", "TIDAK", "DAN", "SAMA DENGAN"], c: 2 },
-            { q: "Struktur IF-ELSE digunakan jika program memiliki...", a: ["Banyak data", "Pilihan/Kondisi", "Kesalahan", "Kecepatan"], c: 1 },
-            { q: "Switch-case paling cocok digunakan untuk...", a: ["Menu pilihan tetap", "Matematika rumit", "Membuat loop", "Hapus data"], c: 0 },
-            { q: "Apa kegunaan 'break' dalam Switch-case?", a: ["Istirahat", "Menghentikan pengecekan berikutnya", "Menghapus program", "Memulai loop"], c: 1 },
-            { q: "Nested IF artinya adalah...", a: ["IF di dalam IF", "IF yang salah", "IF tanpa ELSE", "IF satu baris"], c: 0 },
-            { q: "Perulangan FOR digunakan jika...", a: ["Kondisi tidak jelas", "Jumlah putaran sudah pasti", "Ingin berhenti paksa", "Hanya untuk teks"], c: 1 },
-            { q: "Apa dampak dari Infinite Loop?", a: ["PC makin cepat", "Program jalan terus tak berhenti", "Data terhapus", "Program otomatis update"], c: 1 },
-            { q: "Perulangan yang mengecek kondisi di akhir adalah...", a: ["FOR", "WHILE", "DO-WHILE", "SWITCH"], c: 2 },
-            { q: "Perintah cetak yang pindah ke baris baru adalah...", a: ["print()", "println()", "printf()", "output()"], c: 1 },
-            { q: "Nama file Java harus sama dengan...", a: ["Nama Class", "Nama User", "Nama Project", "Nama Folder"], c: 0 },
-            { q: "Fokus mengabaikan detail tidak penting disebut...", a: ["Pola", "Abstraksi", "Dekomposisi", "Logic"], c: 1 }
-        ];
+    const quizForm = document.getElementById("quizForm");
+    questions.forEach((q, index) => {
+      const div = document.createElement("div");
+      div.className = "question";
+      div.innerHTML = `<h2>${q.question}</h2><div class="options">` +
+        q.options.map((opt, i) => `
+          <label>
+            <input type="radio" name="q${index}" value="${i}"/> ${opt}
+          </label>`).join("") +
+        `</div><div class="feedback" id="feedback${index}"></div>`;
+      quizForm.appendChild(div);
+    });
 
-        let index = 0;
-        let score = 0;
+    function submitQuiz() {
+      const answers = questions.map((_, i) =>
+        document.querySelector(`input[name="q${i}"]:checked`)
+      );
 
-        const qBox = document.getElementById('question');
-        const optBox = document.getElementById('options');
-        const progress = document.getElementById('progress');
-        const quizScreen = document.getElementById('quiz-screen');
-        const resultScreen = document.getElementById('result-screen');
+      if (answers.includes(null)) {
+        alert("Mohon jawab semua soal sebelum menekan tombol Selesai!");
+        return;
+      }
 
-        function startQuiz() {
-            const current = database[index];
-            qBox.innerText = current.q;
-            progress.innerText = `Soal ${index + 1}/${database.length}`;
-            
-            optBox.innerHTML = '';
-            current.a.forEach((pilihan, i) => {
-                const btn = document.createElement('button');
-                btn.innerText = pilihan;
-                btn.className = 'btn-option';
-                btn.onclick = () => select(i);
-                optBox.appendChild(btn);
-            });
+      let score = 0;
+      answers.forEach((ans, i) => {
+        const correct = questions[i].answer;
+        const feedbackEl = document.getElementById(`feedback${i}`);
+        const labels = document.querySelectorAll(`input[name="q${i}"]`);
+
+        labels.forEach(input => {
+          const label = input.closest("label");
+          label.classList.remove("correct", "incorrect");
+          if (parseInt(input.value) === correct) {
+            label.classList.add("correct");
+          }
+        });
+
+        if (parseInt(ans.value) === correct) {
+          score++;
+          feedbackEl.textContent = "✔ Benar!";
+          feedbackEl.style.color = "#10b981";
+        } else {
+          feedbackEl.textContent = `✖ Salah. Jawaban benar: ${questions[i].options[correct]}`;
+          feedbackEl.style.color = "#ef4444";
+          ans.closest("label").classList.add("incorrect");
         }
+      });
 
-        function select(pilihanUser) {
-            if (pilihanUser === database[index].c) {
-                score++;
-            }
-            
-            index++;
-            if (index < database.length) {
-                startQuiz();
-            } else {
-                finish();
-            }
-        }
+      const resultBox = document.getElementById("resultBox");
+      resultBox.style.display = "block";
+      const nilai = (score / questions.length) * 100;
+      resultBox.innerHTML = `<strong>Hasil Akhir:</strong><br>Skor: ${score} / ${questions.length}<br>Nilai: ${nilai}<br><br><em>Terus semangat belajar koding ya!</em>`;
 
-        function finish() {
-            quizScreen.classList.add('hidden');
-            document.getElementById('quiz-header').classList.add('hidden');
-            resultScreen.classList.remove('hidden');
-            
-            const total = (score / database.length) * 100;
-            document.getElementById('final-score').innerText = total;
-            document.getElementById('status-text').innerText = `Benar: ${score} | Salah: ${database.length - score}`;
-        }
-
-        startQuiz();
-    </script>
+      document.querySelector("button[onclick='submitQuiz()']").style.display = "none";
+      document.getElementById("retryBtn").style.display = "inline-block";
+      
+      // Scroll ke atas untuk lihat skor
+      window.scrollTo({top: 0, behavior: 'smooth'});
+    }
+  </script>
 </body>
 </html>
