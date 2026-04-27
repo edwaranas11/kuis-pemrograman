@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Kuis PPLG - Logika & Java Dasar</title>
+  <title>Kuis PPLG - Multi Topik</title>
   <style>
     body {
       font-family: "Segoe UI", sans-serif;
@@ -32,12 +32,9 @@
     }
     h2 {
       color: #1e3a8a;
-      font-size: 1.1rem;
     }
     .question {
-      margin-bottom: 30px;
-      border-bottom: 1px solid #eee;
-      padding-bottom: 15px;
+      margin-bottom: 20px;
     }
     .options label {
       display: block;
@@ -53,7 +50,7 @@
       background-color: #e0e7ff;
     }
     button {
-      padding: 12px 25px;
+      padding: 10px 20px;
       font-size: 16px;
       margin-top: 20px;
       border: none;
@@ -61,7 +58,6 @@
       background-color: #1e3a8a;
       color: white;
       cursor: pointer;
-      font-weight: bold;
     }
     button:hover {
       background-color: #3749a2;
@@ -75,12 +71,12 @@
       display: none;
     }
     .correct {
-      background-color: #d1fae5 !important;
-      border-color: #10b981 !important;
+      background-color: #d1fae5;
+      border-color: #10b981;
     }
     .incorrect {
-      background-color: #fee2e2 !important;
-      border-color: #ef4444 !important;
+      background-color: #fee2e2;
+      border-color: #ef4444;
     }
     .feedback {
       font-weight: bold;
@@ -97,44 +93,46 @@
 <body>
   <header>
     <img src="https://edwaranas11.github.io/soal-pplg1/LOGO%20SMK.png" alt="Logo Sekolah" />
-    <h1>Evaluasi Logika & Pemrograman Java</h1>
+    <h1>Kuis PPLG - Multi Topik</h1>
     <p>Oleh Edwar Anas, S.Kom</p>
   </header>
 
   <div class="container" id="quiz-container">
     <form id="quizForm"></form>
     <div class="result" id="resultBox"></div>
-    <button type="button" onclick="submitQuiz()">Selesai & Cek Hasil</button>
+    <button type="button" onclick="submitQuiz()">Selesai</button>
     <button type="button" onclick="location.reload()" style="display: none;" id="retryBtn">Coba Lagi</button>
   </div>
 
   <script>
     const questions = [
-      // BULAN 1: Logika & AI
-      { question: "1. Teknik memecah masalah kompleks menjadi bagian-bagian yang lebih kecil disebut...", options: ["Abstraksi", "Dekomposisi", "Pengenalan Pola", "Algoritma"], answer: 1 },
-      { question: "2. Perbedaan utama AI dengan program manual adalah AI mampu...", options: ["Bekerja tanpa listrik", "Belajar dari pola data", "Menghapus virus otomatis", "Mengganti hardware sendiri"], answer: 1 },
-      { question: "3. Langkah-langkah logis dan sistematis untuk menyelesaikan masalah disebut...", options: ["Flowchart", "Variabel", "Algoritma", "Pseudocode"], answer: 2 },
-      { question: "4. Simbol belah ketupat (diamond) pada flowchart berfungsi untuk...", options: ["Mulai/Selesai", "Proses", "Input/Output", "Keputusan/Percabangan"], answer: 3 },
-      { question: "5. Penulisan algoritma yang menyerupai struktur kode pemrograman adalah...", options: ["Flowchart", "Pseudocode", "Narasi", "Puisi"], answer: 1 },
-      
-      // Minggu 3-4: Dasar Java
-      { question: "6. Class Java yang digunakan untuk menerima input dari user adalah...", options: ["Scanner", "Input", "System", "Print"], answer: 0 },
-      { question: "7. Manakah penulisan main method yang benar di Java?", options: ["void static main()", "public static void main(String[] args)", "public main(args)", "static void Main()"], answer: 1 },
-      { question: "8. Tipe data yang digunakan untuk menyimpan angka bulat adalah...", options: ["double", "float", "String", "int"], answer: 3 },
-      { question: "9. Jika ingin menyimpan teks seperti 'Nama Siswa', tipe data yang tepat adalah...", options: ["char", "String", "boolean", "int"], answer: 1 },
-      { question: "10. Perintah untuk mencetak teks lalu pindah ke baris baru adalah...", options: ["System.out.print()", "System.out.println()", "System.in.read()", "System.out.write()"], answer: 1 },
+      // 🌱 Green Technology
+      { question: "1. Tujuan utama dari teknologi hijau (green technology) adalah…", options: ["Meningkatkan konsumsi energi", "Mengurangi dampak lingkungan", "Meningkatkan limbah industri", "Menghapus sumber daya alam"], answer: 1 },
+      { question: "2. Contoh penerapan green technology di bidang transportasi adalah…", options: ["Mobil listrik", "Mobil balap", "Truk diesel", "Pesawat tempur"], answer: 0 },
+      { question: "3. Panel surya mengubah energi matahari menjadi…", options: ["Energi listrik", "Energi panas bumi", "Energi angin", "Energi air"], answer: 0 },
+      { question: "4. Teknologi daur ulang limbah plastik termasuk kategori…", options: ["Green technology", "Virtual reality", "Cloud computing", "Nanoteknologi"], answer: 0 },
+      { question: "5. Salah satu manfaat penggunaan energi terbarukan adalah…", options: ["Mengurangi emisi karbon", "Menambah polusi udara", "Meningkatkan penggunaan batu bara", "Mengurangi efisiensi energi"], answer: 0 },
 
-      // BULAN 2: Struktur Kontrol
-      { question: "11. Struktur kontrol yang digunakan untuk memilih satu dari dua kondisi (Ya/Tidak) adalah...", options: ["FOR", "WHILE", "IF-ELSE", "SWITCH"], answer: 2 },
-      { question: "12. Operator logika 'AND' di Java dilambangkan dengan simbol...", options: ["||", "==", "&&", "!"], answer: 2 },
-      { question: "13. Struktur IF di dalam IF disebut dengan istilah...", options: ["Multiple IF", "Nested IF", "Double IF", "Looping IF"], answer: 1 },
-      { question: "14. Keyword yang digunakan pada SWITCH-CASE jika tidak ada nilai yang cocok adalah...", options: ["else", "break", "stop", "default"], answer: 3 },
-      { question: "15. Apa fungsi 'break' dalam struktur SWITCH-CASE?", options: ["Menghentikan program", "Keluar dari blok switch agar tidak lanjut ke case bawahnya", "Memberikan nilai balik", "Memulai perulangan"], answer: 1 },
-      { question: "16. Perulangan yang jumlah putarannya sudah ditentukan secara pasti sebaiknya menggunakan...", options: ["FOR", "WHILE", "DO-WHILE", "IF"], answer: 0 },
-      { question: "17. Perulangan yang mengecek kondisi di akhir (minimal jalan 1x) adalah...", options: ["FOR", "WHILE", "DO-WHILE", "SWITCH"], answer: 2 },
-      { question: "18. Apa yang terjadi jika kondisi WHILE selalu bernilai TRUE tanpa ada perubahan nilai?", options: ["Program error", "Infinite Loop (Perulangan tak henti)", "Program langsung selesai", "PC otomatis mati"], answer: 1 },
-      { question: "19. Operator 'i++' dalam perulangan merupakan singkatan dari...", options: ["i = i + 1", "i = i - 1", "i = i * 2", "i = i / 2"], answer: 0 },
-      { question: "20. Tipe data yang hanya memiliki nilai 'true' atau 'false' adalah...", options: ["int", "double", "boolean", "String"], answer: 2 }
+      // 🕶️ Virtual Reality & Augmented Reality
+      { question: "6. Virtual Reality (VR) memungkinkan pengguna untuk…", options: ["Masuk ke lingkungan digital imersif", "Melihat dunia nyata tanpa perubahan", "Mengontrol komputer menggunakan suara", "Menulis kode program"], answer: 0 },
+      { question: "7. Augmented Reality (AR) bekerja dengan cara…", options: ["Menambahkan elemen digital ke dunia nyata", "Menggantikan dunia nyata sepenuhnya", "Mencetak gambar 3D", "Menghapus objek nyata"], answer: 0 },
+      { question: "8. Perangkat yang sering digunakan untuk VR adalah…", options: ["Headset VR", "Keyboard", "Printer", "Mouse"], answer: 0 },
+      { question: "9. Contoh penerapan AR dalam pendidikan adalah…", options: ["Aplikasi anatomi 3D yang menampilkan organ tubuh manusia", "Mesin cetak 3D", "Permainan papan", "Presentasi PowerPoint"], answer: 0 },
+      { question: "10. Teknologi AR banyak dimanfaatkan dalam industri…", options: ["Periklanan dan pelatihan teknis", "Pertanian tradisional", "Penulisan puisi", "Pengolahan makanan"], answer: 0 },
+
+      // 💻 Pengembangan Perangkat Lunak
+      { question: "11. Langkah pertama dalam pengembangan perangkat lunak adalah…", options: ["Analisis kebutuhan", "Pemrograman", "Pengujian", "Pemeliharaan"], answer: 0 },
+      { question: "12. Model pengembangan perangkat lunak yang berurutan dari analisis hingga pemeliharaan disebut…", options: ["Waterfall", "Agile", "Scrum", "DevOps"], answer: 0 },
+      { question: "13. Agile development menekankan pada…", options: ["Fleksibilitas dan kolaborasi tim", "Proses yang kaku", "Dokumentasi berlebihan", "Proyek tanpa umpan balik"], answer: 0 },
+      { question: "14. Pengujian perangkat lunak (software testing) bertujuan untuk…", options: ["Menemukan kesalahan dan memastikan kualitas sistem", "Menambah ukuran file", "Memperlambat program", "Menghapus fitur"], answer: 0 },
+      { question: "15. Versi kode sumber yang disimpan dan dikelola menggunakan sistem seperti Git disebut…", options: ["Version control", "Debugging", "Deployment", "Encryption"], answer: 0 },
+
+      // 🔒 Keamanan Siber & Etika Digital
+      { question: "16. Tujuan utama keamanan siber (cyber security) adalah…", options: ["Mengamankan data dan sistem dari ancaman digital", "Mempercepat koneksi internet", "Meningkatkan ukuran file", "Menghapus data lama"], answer: 0 },
+      { question: "17. Contoh serangan siber yang mencuri data pribadi pengguna adalah…", options: ["Phishing", "Streaming", "Cloud backup", "SEO"], answer: 0 },
+      { question: "18. Etika digital mengajarkan kita untuk…", options: ["Menghormati privasi dan menggunakan teknologi secara bertanggung jawab", "Mengunggah data pribadi sembarangan", "Menggunakan akun palsu untuk hiburan", "Menyebarkan informasi tanpa sumber"], answer: 0 },
+      { question: "19. Salah satu cara melindungi akun online adalah…", options: ["Menggunakan kata sandi kuat dan autentikasi dua faktor", "Membagikan password ke teman", "Menggunakan password sama di semua akun", "Menonaktifkan firewall"], answer: 0 },
+      { question: "20. Tindakan yang termasuk pelanggaran etika digital adalah…", options: ["Plagiarisme dan menyebarkan hoaks", "Memberi kredit kepada pembuat asli", "Menjaga keamanan data", "Menghormati hak cipta"], answer: 0 }
     ];
 
     const quizForm = document.getElementById("quizForm");
@@ -156,7 +154,7 @@
       );
 
       if (answers.includes(null)) {
-        alert("Mohon jawab semua soal sebelum menekan tombol Selesai!");
+        alert("Silakan jawab semua soal terlebih dahulu!");
         return;
       }
 
@@ -176,25 +174,21 @@
 
         if (parseInt(ans.value) === correct) {
           score++;
-          feedbackEl.textContent = "✔ Benar!";
-          feedbackEl.style.color = "#10b981";
+          feedbackEl.textContent = "✔ Benar";
+          feedbackEl.style.color = "green";
         } else {
-          feedbackEl.textContent = `✖ Salah. Jawaban benar: ${questions[i].options[correct]}`;
-          feedbackEl.style.color = "#ef4444";
+          feedbackEl.textContent = `✖ Salah. Jawaban yang benar: ${questions[i].options[correct]}`;
+          feedbackEl.style.color = "red";
           ans.closest("label").classList.add("incorrect");
         }
       });
 
       const resultBox = document.getElementById("resultBox");
       resultBox.style.display = "block";
-      const nilai = (score / questions.length) * 100;
-      resultBox.innerHTML = `<strong>Hasil Akhir:</strong><br>Skor: ${score} / ${questions.length}<br>Nilai: ${nilai}<br><br><em>Terus semangat belajar koding ya!</em>`;
+      resultBox.innerHTML = `<strong>Skor Kamu: ${score} / ${questions.length}</strong><br>Terus semangat belajar ya!`;
 
       document.querySelector("button[onclick='submitQuiz()']").style.display = "none";
       document.getElementById("retryBtn").style.display = "inline-block";
-      
-      // Scroll ke atas untuk lihat skor
-      window.scrollTo({top: 0, behavior: 'smooth'});
     }
   </script>
 </body>
