@@ -1,227 +1,30 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Kuis PPLG - Multi Topik</title>
-
-  <style>
-    body {
-      font-family: "Segoe UI", sans-serif;
-      margin: 0;
-      background: #f4f7f9;
-      color: #333;
-    }
-
-    header {
-      text-align: center;
-      padding: 20px;
-      background-color: #1e3a8a;
-      color: white;
-    }
-
-    header img {
-      width: 80px;
-      margin-bottom: 10px;
-    }
-
-    .container {
-      max-width: 800px;
-      margin: 20px auto;
-      background: white;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
-
-    h2 {
-      color: #1e3a8a;
-      margin-top: 30px;
-    }
-
-    .question {
-      margin-bottom: 20px;
-    }
-
-    .options label {
-      display: block;
-      padding: 10px;
-      border: 1px solid #ccc;
-      margin-bottom: 5px;
-      border-radius: 5px;
-      cursor: pointer;
-      background-color: #f9f9f9;
-    }
-
-    .options label:hover {
-      background-color: #e0e7ff;
-    }
-
-    button {
-      padding: 10px 20px;
-      font-size: 16px;
-      margin-top: 20px;
-      border: none;
-      border-radius: 5px;
-      background-color: #1e3a8a;
-      color: white;
-      cursor: pointer;
-    }
-
-    button:hover {
-      background-color: #3749a2;
-    }
-
-    .result {
-      margin-top: 30px;
-      padding: 20px;
-      background-color: #d1fae5;
-      border-left: 5px solid #10b981;
-      border-radius: 5px;
-      display: none;
-    }
-
-    .correct {
-      background-color: #d1fae5 !important;
-      border-color: #10b981 !important;
-    }
-
-    .incorrect {
-      background-color: #fee2e2 !important;
-      border-color: #ef4444 !important;
-    }
-
-    .feedback {
-      font-weight: bold;
-      margin-top: 5px;
-    }
-  </style>
-</head>
-
-<body>
-
-<header>
-  <img src="https://edwaranas11.github.io/soal-pplg1/LOGO%20SMK.png">
-  <h1>Kuis PPLG - Multi Topik</h1>
-  <p>Oleh Edwar Anas, S.Kom</p>
-</header>
-
-<div class="container">
-  <form id="quizForm"></form>
-
-  <div class="result" id="resultBox"></div>
-
-  <button onclick="submitQuiz()" type="button">Selesai</button>
-  <button onclick="location.reload()" id="retryBtn" style="display:none;">Coba Lagi</button>
-</div>
-
 <script>
 
 const questions = [
-  { category: "🌱 Green Technology", question: "1. Tujuan utama dari teknologi hijau adalah…", options: ["Meningkatkan konsumsi energi", "Mengurangi dampak lingkungan", "Meningkatkan limbah industri", "Menghapus sumber daya alam"], answer: 1 },
-  { category: "🌱 Green Technology", question: "2. Contoh penerapan green technology di bidang transportasi adalah…", options: ["Mobil listrik", "Mobil balap", "Truk diesel", "Pesawat tempur"], answer: 0 },
-  { category: "🌱 Green Technology", question: "3. Panel surya mengubah energi matahari menjadi…", options: ["Energi listrik", "Energi panas bumi", "Energi angin", "Energi air"], answer: 0 },
-  { category: "🌱 Green Technology", question: "4. Teknologi daur ulang limbah plastik termasuk kategori…", options: ["Green technology", "Virtual reality", "Cloud computing", "Nanoteknologi"], answer: 0 },
-  { category: "🌱 Green Technology", question: "5. Salah satu manfaat penggunaan energi terbarukan adalah…", options: ["Mengurangi emisi karbon", "Menambah polusi udara", "Meningkatkan penggunaan batu bara", "Mengurangi efisiensi energi"], answer: 0 },
+  { category: "🧠 Computational Thinking", question: "1. Teknik memecah masalah kompleks menjadi bagian kecil disebut…", options: ["Abstraksi", "Dekomposisi", "Algoritma", "Pola"], answer: 1 },
+  { category: "🧠 Computational Thinking", question: "2. Mencari kesamaan dari beberapa masalah disebut…", options: ["Dekomposisi", "Algoritma", "Pengenalan pola", "Evaluasi"], answer: 2 },
+  { category: "🧠 Computational Thinking", question: "3. Mengabaikan detail yang tidak penting disebut…", options: ["Abstraksi", "Dekomposisi", "Looping", "Variabel"], answer: 0 },
+  { category: "🧠 Computational Thinking", question: "4. Langkah-langkah sistematis untuk menyelesaikan masalah disebut…", options: ["Program", "Algoritma", "Flowchart", "Data"], answer: 1 },
+  { category: "🧠 Computational Thinking", question: "5. Tujuan utama computational thinking adalah…", options: ["Menghafal kode", "Menyelesaikan masalah secara logis", "Mempercepat internet", "Menghapus data"], answer: 1 },
 
-  { category: "🕶️ VR & AR", question: "6. Virtual Reality (VR) memungkinkan pengguna untuk…", options: ["Masuk ke lingkungan digital imersif", "Melihat dunia nyata tanpa perubahan", "Mengontrol komputer menggunakan suara", "Menulis kode program"], answer: 0 },
-  { category: "🕶️ VR & AR", question: "7. Augmented Reality (AR) bekerja dengan cara…", options: ["Menambahkan elemen digital ke dunia nyata", "Menggantikan dunia nyata sepenuhnya", "Mencetak gambar 3D", "Menghapus objek nyata"], answer: 0 },
-  { category: "🕶️ VR & AR", question: "8. Perangkat yang sering digunakan untuk VR adalah…", options: ["Headset VR", "Keyboard", "Printer", "Mouse"], answer: 0 },
-  { category: "🕶️ VR & AR", question: "9. Contoh penerapan AR dalam pendidikan adalah…", options: ["Aplikasi anatomi 3D", "Mesin cetak 3D", "Permainan papan", "Presentasi PowerPoint"], answer: 0 },
-  { category: "🕶️ VR & AR", question: "10. Teknologi AR banyak dimanfaatkan dalam industri…", options: ["Periklanan dan pelatihan teknis", "Pertanian tradisional", "Penulisan puisi", "Pengolahan makanan"], answer: 0 },
+  { category: "💻 Dasar Pemrograman", question: "6. Variabel digunakan untuk…", options: ["Menjalankan program", "Menyimpan data", "Menghapus data", "Menutup aplikasi"], answer: 1 },
+  { category: "💻 Dasar Pemrograman", question: "7. Tipe data untuk angka bulat adalah…", options: ["float", "double", "int", "String"], answer: 2 },
+  { category: "💻 Dasar Pemrograman", question: "8. Tipe data untuk teks adalah…", options: ["char", "String", "boolean", "int"], answer: 1 },
+  { category: "💻 Dasar Pemrograman", question: "9. Perintah output di Java adalah…", options: ["print()", "echo", "System.out.println()", "cout"], answer: 2 },
+  { category: "💻 Dasar Pemrograman", question: "10. Input dari user di Java menggunakan…", options: ["Scanner", "Input", "System.in()", "Read"], answer: 0 },
 
-  { category: "💻 Software Development", question: "11. Langkah pertama dalam pengembangan perangkat lunak adalah…", options: ["Analisis kebutuhan", "Pemrograman", "Pengujian", "Pemeliharaan"], answer: 0 },
-  { category: "💻 Software Development", question: "12. Model pengembangan perangkat lunak yang berurutan disebut…", options: ["Waterfall", "Agile", "Scrum", "DevOps"], answer: 0 },
-  { category: "💻 Software Development", question: "13. Agile development menekankan pada…", options: ["Fleksibilitas dan kolaborasi tim", "Proses yang kaku", "Dokumentasi berlebihan", "Proyek tanpa umpan balik"], answer: 0 },
-  { category: "💻 Software Development", question: "14. Pengujian perangkat lunak bertujuan untuk…", options: ["Menemukan kesalahan dan memastikan kualitas sistem", "Menambah ukuran file", "Memperlambat program", "Menghapus fitur"], answer: 0 },
-  { category: "💻 Software Development", question: "15. Sistem seperti Git disebut…", options: ["Version control", "Debugging", "Deployment", "Encryption"], answer: 0 },
+  { category: "🔀 Struktur Kontrol", question: "11. IF digunakan untuk…", options: ["Perulangan", "Percabangan kondisi", "Input", "Output"], answer: 1 },
+  { category: "🔀 Struktur Kontrol", question: "12. ELSE dijalankan saat kondisi…", options: ["Benar", "Salah", "Kosong", "Looping"], answer: 1 },
+  { category: "🔀 Struktur Kontrol", question: "13. FOR digunakan untuk…", options: ["Percabangan", "Perulangan pasti", "Input", "Output"], answer: 1 },
+  { category: "🔀 Struktur Kontrol", question: "14. WHILE digunakan untuk…", options: ["Perulangan selama kondisi terpenuhi", "Percabangan", "Output", "Input"], answer: 0 },
+  { category: "🔀 Struktur Kontrol", question: "15. SWITCH digunakan untuk…", options: ["Perulangan", "Percabangan banyak kondisi", "Input", "Output"], answer: 1 },
 
-  { category: "🔒 Cyber Security", question: "16. Tujuan utama keamanan siber adalah…", options: ["Mengamankan data dan sistem", "Mempercepat internet", "Menambah file", "Menghapus data"], answer: 0 },
-  { category: "🔒 Cyber Security", question: "17. Contoh serangan pencurian data adalah…", options: ["Phishing", "Streaming", "Cloud backup", "SEO"], answer: 0 },
-  { category: "🔒 Cyber Security", question: "18. Etika digital mengajarkan kita untuk…", options: ["Menghormati privasi", "Menyebar data", "Akun palsu", "Hoaks"], answer: 0 },
-  { category: "🔒 Cyber Security", question: "19. Cara melindungi akun adalah…", options: ["Password kuat & 2FA", "Share password", "Sama semua", "Matikan firewall"], answer: 0 },
-  { category: "🔒 Cyber Security", question: "20. Pelanggaran etika digital adalah…", options: ["Plagiarisme", "Memberi kredit", "Menjaga data", "Hormati hak cipta"], answer: 0 }
+  { category: "⚙️ Logika Program", question: "16. Operator '==' berarti…", options: ["Tambah", "Sama dengan", "Tidak sama", "Kurang dari"], answer: 1 },
+  { category: "⚙️ Logika Program", question: "17. Operator '!=' berarti…", options: ["Sama dengan", "Tidak sama dengan", "Lebih besar", "Kurang"], answer: 1 },
+  { category: "⚙️ Logika Program", question: "18. Infinite loop adalah…", options: ["Program berhenti", "Perulangan tanpa henti", "Error", "Data hilang"], answer: 1 },
+  { category: "⚙️ Logika Program", question: "19. i++ berarti…", options: ["i = i - 1", "i = i + 1", "i = i * 2", "i = i / 2"], answer: 1 },
+  { category: "⚙️ Logika Program", question: "20. Boolean memiliki nilai…", options: ["0 dan 1", "True dan False", "A dan B", "Ya dan Tidak"], answer: 1 }
+
 ];
 
-const quizForm = document.getElementById("quizForm");
-
-let lastCategory = "";
-
-questions.forEach((q, index) => {
-
-  if (q.category !== lastCategory) {
-    const cat = document.createElement("h2");
-    cat.textContent = q.category;
-    quizForm.appendChild(cat);
-    lastCategory = q.category;
-  }
-
-  const div = document.createElement("div");
-  div.className = "question";
-
-  div.innerHTML = `
-    <p>${q.question}</p>
-    <div class="options">
-      ${q.options.map((opt, i) => `
-        <label>
-          <input type="radio" name="q${index}" value="${i}"> ${opt}
-        </label>
-      `).join("")}
-    </div>
-    <div class="feedback" id="feedback${index}"></div>
-  `;
-
-  quizForm.appendChild(div);
-});
-
-function submitQuiz() {
-
-  let score = 0;
-
-  for (let i = 0; i < questions.length; i++) {
-
-    const selected = document.querySelector(`input[name="q${i}"]:checked`);
-    const feedback = document.getElementById(`feedback${i}`);
-
-    if (!selected) {
-      alert("Silakan jawab semua soal terlebih dahulu!");
-      return;
-    }
-
-    const correct = questions[i].answer;
-    const options = document.querySelectorAll(`input[name="q${i}"]`);
-
-    options.forEach(opt => {
-      const label = opt.closest("label");
-      label.classList.remove("correct", "incorrect");
-
-      if (parseInt(opt.value) === correct) {
-        label.classList.add("correct");
-      }
-    });
-
-    if (parseInt(selected.value) === correct) {
-      score++;
-      feedback.textContent = "✔ Benar";
-      feedback.style.color = "green";
-    } else {
-      feedback.textContent = "✖ Salah";
-      feedback.style.color = "red";
-      selected.closest("label").classList.add("incorrect");
-    }
-  }
-
-  const result = document.getElementById("resultBox");
-  result.style.display = "block";
-  result.innerHTML = `<strong>Skor: ${score} / ${questions.length}</strong><br>Semangat terus belajar ya 🚀`;
-
-  document.querySelector("button").style.display = "none";
-  document.getElementById("retryBtn").style.display = "inline-block";
-
-  window.scrollTo({ top: 0, behavior: "smooth" });
-}
-
 </script>
-
-</body>
-</html>
