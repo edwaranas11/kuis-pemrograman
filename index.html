@@ -1,3 +1,120 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Kuis PPLG - Multi Topik</title>
+
+  <style>
+    body {
+      font-family: "Segoe UI", sans-serif;
+      margin: 0;
+      background: #f4f7f9;
+      color: #333;
+    }
+
+    header {
+      text-align: center;
+      padding: 20px;
+      background-color: #1e3a8a;
+      color: white;
+    }
+
+    header img {
+      width: 80px;
+      margin-bottom: 10px;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 20px auto;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      color: #1e3a8a;
+      margin-top: 30px;
+    }
+
+    .question {
+      margin-bottom: 20px;
+    }
+
+    .options label {
+      display: block;
+      padding: 10px;
+      border: 1px solid #ccc;
+      margin-bottom: 5px;
+      border-radius: 5px;
+      cursor: pointer;
+      background-color: #f9f9f9;
+    }
+
+    .options label:hover {
+      background-color: #e0e7ff;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      margin-top: 20px;
+      border: none;
+      border-radius: 5px;
+      background-color: #1e3a8a;
+      color: white;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #3749a2;
+    }
+
+    .result {
+      margin-top: 30px;
+      padding: 20px;
+      background-color: #d1fae5;
+      border-left: 5px solid #10b981;
+      border-radius: 5px;
+      display: none;
+    }
+
+    .correct {
+      background-color: #d1fae5 !important;
+      border-color: #10b981 !important;
+    }
+
+    .incorrect {
+      background-color: #fee2e2 !important;
+      border-color: #ef4444 !important;
+    }
+
+    .feedback {
+      font-weight: bold;
+      margin-top: 5px;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <img src="https://edwaranas11.github.io/soal-pplg1/LOGO%20SMK.png">
+  <h1>Kuis PPLG - Multi Topik</h1>
+  <p>Oleh Edwar Anas, S.Kom</p>
+</header>
+
+<div class="container">
+  <form id="quizForm"></form>
+
+  <div class="result" id="resultBox"></div>
+
+  <button onclick="submitQuiz()" type="button">Selesai</button>
+  <button onclick="location.reload()" id="retryBtn" style="display:none;">Coba Lagi</button>
+</div>
+
 <script>
 
 const questions = [
@@ -24,7 +141,87 @@ const questions = [
   { category: "⚙️ Logika Program", question: "18. Infinite loop adalah…", options: ["Program berhenti", "Perulangan tanpa henti", "Error", "Data hilang"], answer: 1 },
   { category: "⚙️ Logika Program", question: "19. i++ berarti…", options: ["i = i - 1", "i = i + 1", "i = i * 2", "i = i / 2"], answer: 1 },
   { category: "⚙️ Logika Program", question: "20. Boolean memiliki nilai…", options: ["0 dan 1", "True dan False", "A dan B", "Ya dan Tidak"], answer: 1 }
-
 ];
 
+const quizForm = document.getElementById("quizForm");
+
+let lastCategory = "";
+
+questions.forEach((q, index) => {
+
+  if (q.category !== lastCategory) {
+    const cat = document.createElement("h2");
+    cat.textContent = q.category;
+    quizForm.appendChild(cat);
+    lastCategory = q.category;
+  }
+
+  const div = document.createElement("div");
+  div.className = "question";
+
+  div.innerHTML = `
+    <p>${q.question}</p>
+    <div class="options">
+      ${q.options.map((opt, i) => `
+        <label>
+          <input type="radio" name="q${index}" value="${i}"> ${opt}
+        </label>
+      `).join("")}
+    </div>
+    <div class="feedback" id="feedback${index}"></div>
+  `;
+
+  quizForm.appendChild(div);
+});
+
+function submitQuiz() {
+
+  let score = 0;
+
+  for (let i = 0; i < questions.length; i++) {
+
+    const selected = document.querySelector(`input[name="q${i}"]:checked`);
+    const feedback = document.getElementById(`feedback${i}`);
+
+    if (!selected) {
+      alert("Silakan jawab semua soal terlebih dahulu!");
+      return;
+    }
+
+    const correct = questions[i].answer;
+    const options = document.querySelectorAll(`input[name="q${i}"]`);
+
+    options.forEach(opt => {
+      const label = opt.closest("label");
+      label.classList.remove("correct", "incorrect");
+
+      if (parseInt(opt.value) === correct) {
+        label.classList.add("correct");
+      }
+    });
+
+    if (parseInt(selected.value) === correct) {
+      score++;
+      feedback.textContent = "✔ Benar";
+      feedback.style.color = "green";
+    } else {
+      feedback.textContent = "✖ Salah";
+      feedback.style.color = "red";
+      selected.closest("label").classList.add("incorrect");
+    }
+  }
+
+  const result = document.getElementById("resultBox");
+  result.style.display = "block";
+  result.innerHTML = `<strong>Skor: ${score} / ${questions.length}</strong><br>Semangat terus belajar ya 🚀`;
+
+  document.querySelector("button").style.display = "none";
+  document.getElementById("retryBtn").style.display = "inline-block";
+
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
 </script>
+
+</body>
+</html>
